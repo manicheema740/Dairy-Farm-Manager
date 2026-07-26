@@ -1,108 +1,114 @@
-# vinext-starter
+# Dairy Farm Manager
 
-A clean full-stack starter running on
-[vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
-Drizzle support.
+A responsive and installable dairy-business management application for tracking livestock, milk production, farm operations, sales, expenses, and monthly performance.
 
-## Prerequisites
+Built as a Progressive Web App (PWA), Dairy Farm Manager works on desktop and mobile and keeps day-to-day records available on the device.
 
-- Node.js `>=22.13.0`
-- Linux with `flock`, `curl`, and GNU `timeout`
+## Features
 
-## Sites Lifecycle
+- **Livestock management:** Record cows, buffaloes, calves, parent relationships, values, status, and notes.
+- **Animal sales:** Save the buyer, sale date, price, and sale notes while preserving the animal’s history.
+- **Milk recording:** Enter morning and evening milk separately for every lactating animal. Daily, animal-level, and farm-wide totals are calculated automatically.
+- **Financial balance:** Track opening cash, income, expenses, milk sales, animal sales, feed, medicine, labour, utilities, and other costs.
+- **Breeding and health:** Maintain heat, service, pregnancy, calving, treatment, vaccination, medicine-withdrawal, and follow-up records.
+- **Feed inventory:** Monitor stock, suppliers, unit costs, minimum quantities, and low-stock alerts.
+- **Customers and milk sales:** Store customers, delivery quantities, rates, payment status, and outstanding balances.
+- **Reports and smart tools:** Review milk and herd summaries, monthly totals, reminders, QR animal tags, and downloadable reports.
+- **Backup and restore:** Export complete farm data and restore it on the same or another device.
+- **Mobile-first PWA:** Touch-friendly navigation, responsive screens, offline support, and home-screen installation.
+- **English and Urdu:** Switch between supported interface languages.
+- **Correctable records:** Delete incorrect animal, milk, balance, sales, feed, health, breeding, and customer entries.
 
-The Sites lifecycle CLI runs the locked dependency install before returning this checkout. Edit the source under `app/`, then checkpoint when a coherent milestone is ready to inspect or share. The remote Sites builder runs `npm run build` against the pushed commit. Do not repeat install or build as a normal pre-checkpoint step.
+## Technology
 
-This starter does not use `wrangler.jsonc`.
+| Area | Technology |
+| --- | --- |
+| Interface | React 19, TypeScript and CSS |
+| Framework | Next.js 16 with Vinext |
+| Build tooling | Vite 8 |
+| Device storage | Browser storage / IndexedDB |
+| Hosted persistence | Cloudflare D1-compatible worker endpoint |
+| PWA | Web app manifest and service worker |
+| Supporting tools | QR code generation and Drizzle ORM |
 
-`install:ci` is intentionally a single, non-retrying `npm ci`. It refuses a concurrent install for the same project, consumes a matching image-seeded npm cache with `--prefer-offline` while retaining registry fallback for a missing cache object, otherwise downloads and verifies the complete vinext tarball recorded in `package-lock.json`, limits npm to one socket, and terminates a stalled install. `build` applies a short timeout and then validates the Sites artifact. These helpers target Linux and use GNU `timeout`; they are not native macOS scripts.
+## Run locally
 
-Scripts that need writable project-scoped home, npm, XDG, and temporary paths use `scripts/sites-env.sh`. The `dev` and `start` scripts honor the caller's runtime environment and keep Wrangler logs inside the checkout. The generated `.sites-runtime/` directory is disposable and ignored by Git.
+### Requirements
 
-## Included Shape
+- Node.js `22.13.0` or newer
+- npm
 
-- edit site code under `app/`
-- `app/chatgpt-auth.ts` provides optional dispatch-owned ChatGPT sign-in helpers
-- `.openai/hosting.json` declares optional Sites D1 and R2 bindings
-- `vite.config.ts` simulates declared bindings for local development
-- `db/index.ts` reads the D1 binding from the Cloudflare Worker environment
-- `db/schema.ts` starts intentionally empty
-- `examples/d1/` contains an optional D1 example surface
-- `drizzle.config.ts` supports local migration generation when needed
+### Installation
 
-## Workspace Auth Headers
-
-OpenAI workspace sites can read the current user's email from
-`oai-authenticated-user-email`.
-
-SIWC-authenticated workspace sites may also receive
-`oai-authenticated-user-full-name` when the user's SIWC profile has a non-empty
-`name` claim. The full-name value is percent-encoded UTF-8 and is accompanied by
-`oai-authenticated-user-full-name-encoding: percent-encoded-utf-8`.
-
-Treat the full name as optional and fall back to email when it is absent:
-
-```tsx
-import { headers } from "next/headers";
-
-export default async function Home() {
-  const requestHeaders = await headers();
-  const email = requestHeaders.get("oai-authenticated-user-email");
-  const encodedFullName = requestHeaders.get("oai-authenticated-user-full-name");
-  const fullName =
-    encodedFullName &&
-    requestHeaders.get("oai-authenticated-user-full-name-encoding") ===
-      "percent-encoded-utf-8"
-      ? decodeURIComponent(encodedFullName)
-      : null;
-
-  const displayName = fullName ?? email;
-  // ...
-}
+```bash
+git clone https://github.com/manicheema740/Dairy-Farm-Manager.git
+cd Dairy-Farm-Manager
+npm install
+npm run dev
 ```
 
-## Optional Dispatch-Owned ChatGPT Sign-In
+Open the local address displayed in the terminal.
 
-Import the ready-to-use helpers from `app/chatgpt-auth.ts` when the site needs
-optional or required ChatGPT sign-in:
+### Commands
 
-- Use `getChatGPTUser()` for optional signed-in UI.
-- Use `requireChatGPTUser(returnTo)` for server-rendered pages that should send
-  anonymous visitors through Sign in with ChatGPT.
-- Use `chatGPTSignInPath(returnTo)` and `chatGPTSignOutPath(returnTo)` for
-  browser links or actions.
-- Pass a same-origin relative `returnTo` path for the destination after sign-in
-  or sign-out. The helper validates and safely encodes it.
-- Mark protected pages with `export const dynamic = "force-dynamic"` because
-  they depend on per-request identity headers.
+```bash
+npm run dev       # Start the development server
+npm run build     # Create and validate a production build
+npm test          # Build and run automated tests
+npm run lint      # Run code-quality checks
+npm run start     # Start the production build
+```
 
-Dispatch owns `/signin-with-chatgpt`, `/signout-with-chatgpt`, `/callback`, the
-OAuth cookies, and identity header injection. Do not implement app routes for
-those reserved paths. Routes that do not import and call the helper remain
-anonymous-compatible.
+## Install on Android
 
-SIWC establishes identity only; it does not prove workspace membership. Use the
-Sites hosting platform's access policy controls for workspace-wide restrictions,
-or enforce explicit server-side membership or allowlist checks.
+1. Deploy the application to an HTTPS website.
+2. Open it in Chrome on Android.
+3. Open Chrome’s menu.
+4. Select **Install app** or **Add to Home screen**.
+5. Launch Dairy Farm Manager from the home screen.
 
-Use SIWC for account pages, user-specific dashboards, saved records, and write
-actions tied to the current ChatGPT user. Leave public content anonymous.
+## Data and backups
 
-## Diagnostic Commands
+Farm records may be stored locally on the device. Clearing browser data, resetting the browser, or uninstalling without a backup can remove those records.
 
-- `npm run install:ci`: perform the one bounded lockfile install
-- `npm run dev`: start the Vite/Vinext development server
-- `npm run build`: build and validate the deployable Sites artifact
-- `npm run start`: start the built Vinext application
-- `npm test`: build, validate, and verify the rendered development-preview metadata
-- `npm run validate:artifact`: recheck an existing artifact's manifest and ESM `default.fetch` export
-- `npm run db:generate`: generate Drizzle migrations after schema changes
+Before changing devices:
 
-Use build and validation commands for targeted diagnosis after a remote failure, not as part of the normal checkpoint path.
+1. Open **Backup** in the application.
+2. Export the complete backup file.
+3. Keep the backup somewhere safe.
+4. Import it on the new device.
 
-The timeout defaults can be overridden for a controlled canary with `SITES_INSTALL_TIMEOUT`, `SITES_INSTALL_KILL_AFTER`, `SITES_BUILD_TIMEOUT`, and `SITES_BUILD_KILL_AFTER`. A timeout fails the command; the helpers never retry an unchanged install or build.
+Never commit real farm backups, customer information, passwords, API keys, or other secrets to this repository.
 
-## Learn More
+## Project structure
 
-- [vinext Documentation](https://github.com/cloudflare/vinext)
-- [Drizzle D1 Guide](https://orm.drizzle.team/docs/get-started/d1-new)
+```text
+app/                 Interface and application logic
+public/              PWA manifest, service worker, icons and static files
+worker/              Cloud worker and cloud snapshot endpoint
+db/                  Database access and schema definitions
+drizzle/             Database migrations
+scripts/              Build, installation and validation scripts
+tests/                Automated tests
+.openai/hosting.json  Hosting and database-binding configuration
+```
+
+## Deployment
+
+The maintained production build is hosted through ChatGPT Sites. Access may be restricted by the site owner.
+
+[Open Dairy Farm Manager](https://abdul-rehman-website.royyard870.chatgpt.site)
+
+## Security and privacy
+
+This application can contain sensitive farm, customer, animal-health, and financial information. Keep operational backups secure and never place real business data in the source repository.
+
+See [SECURITY.md](SECURITY.md) for reporting guidance.
+
+## Contributing
+
+Suggestions and improvements are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting changes.
+
+## Project status
+
+The application is under active development. Always make a backup before testing a new release with important farm records.
