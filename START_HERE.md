@@ -1,45 +1,55 @@
-# Dairy Farm Manager — Start Here
+# Dairy Farm Manager — Beginner Setup
 
-This folder contains the complete source code for the Dairy Farm Manager web app.
+This repository contains the complete Dairy Farm Manager source code.
 
-## What you need
+## Run it on a computer
 
-- A computer with Node.js 22 or newer
-- npm (included with Node.js)
+### 1. Install Node.js
 
-## Run it locally
+Install Node.js 22 or newer from [nodejs.org](https://nodejs.org/).
 
-Open a terminal in this folder and run:
+### 2. Download the project
+
+On the repository page, select **Code → Download ZIP**, then extract the downloaded file.
+
+Alternatively, use Git:
+
+```bash
+git clone https://github.com/manicheema740/Dairy-Farm-Manager.git
+cd Dairy-Farm-Manager
+```
+
+### 3. Install and start
+
+Open a terminal inside the project folder and run:
 
 ```bash
 npm install
 npm run dev
 ```
 
-The terminal will show a local address. Open that address in Chrome.
+Open the local address displayed in the terminal.
 
-## Install it on a phone
+## Install on an Android phone
 
-The app is a Progressive Web App (PWA). After hosting it on an HTTPS website:
+The application must first be hosted on an HTTPS website.
 
-1. Open the website in Chrome on Android.
-2. Tap the browser menu.
-3. Tap **Add to Home screen** or **Install app**.
+1. Open the hosted website in Chrome.
+2. Open Chrome’s menu.
+3. Select **Install app** or **Add to Home screen**.
+4. Open Dairy Farm Manager from the home screen.
 
-## Important data note
+## Share it with another person
 
-Farm records are primarily stored on the device in the browser's local database.
-Clearing the browser's site data or uninstalling without a backup can remove those
-records. Use the app's backup/cloud-sync features before changing devices.
+Send the hosted website link. The person can open it and install it on their phone. Device-local records remain separate unless a shared cloud-data system is configured.
 
-## Create a GitHub repository manually
+## Protect your records
 
-1. Sign in at https://github.com.
-2. Select **New repository**.
-3. Name it `dairy-farm-manager`.
-4. Choose **Private** unless you want everyone to see the source.
-5. Create the repository.
-6. Upload all files from this folder.
+Farm records may be stored in the browser on the current device. Before clearing browser data, uninstalling the app, or changing phones:
 
-Do not upload personal farm backups, exported reports, passwords, or secret keys.
+1. Open **Backup**.
+2. Export the complete backup.
+3. Save it somewhere secure.
+4. Restore it on the new device.
 
+Never upload real farm backups, customer information, passwords, or secret keys to GitHub.
